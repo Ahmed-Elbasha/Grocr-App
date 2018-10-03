@@ -60,6 +60,20 @@ class GroceryListTableViewController: UITableViewController {
     navigationItem.leftBarButtonItem = userCountBarButtonItem
     
     user = User(uid: "FakeId", email: "hungry@person.food")
+    
+    databaseReference.observe(.value) { (snapshot) in
+        var newItems: [GroceryItem] = []
+        
+        for child in snapshot.children {
+            if let snapshot = child as? DataSnapshot,
+                let groceryItem = GroceryItem(snapshot: snapshot) {
+                newItems.append(groceryItem)
+            }
+        }
+        
+        self.items = newItems
+        self.tableView.reloadData()
+    }
   }
   
   // MARK: UITableView Delegate methods
@@ -126,7 +140,9 @@ class GroceryListTableViewController: UITableViewController {
         
         let groceryItem = GroceryItem(name: text, addedByUser: self.user.email, completed: false)
         
-        let groceryItemReference = Database.database().reference(withPath: text.lowercased())
+        //let groceryItemReference = Database.database().reference(withPath: text.lowercased())
+        
+        let groceryItemReference = self.databaseReference.child(text.lowercased())
         
         groceryItemReference.setValue(groceryItem.toAnyObject())
     }
