@@ -100,8 +100,8 @@ class GroceryListTableViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
-      items.remove(at: indexPath.row)
-      tableView.reloadData()
+        let groceryItem = items[indexPath.row]
+        groceryItem.ref?.removeValue()
     }
   }
   
