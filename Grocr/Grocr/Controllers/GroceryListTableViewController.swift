@@ -61,7 +61,7 @@ class GroceryListTableViewController: UITableViewController {
     
     user = User(uid: "FakeId", email: "hungry@person.food")
     
-    databaseReference.observe(.value) { (snapshot) in
+    databaseReference.queryOrdered(byChild: "completed").observe(.value) { (snapshot) in
         var newItems: [GroceryItem] = []
         
         for child in snapshot.children {
