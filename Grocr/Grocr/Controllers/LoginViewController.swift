@@ -44,6 +44,20 @@ class LoginViewController: UIViewController {
   
   // MARK: Actions
   @IBAction func loginDidTouch(_ sender: AnyObject) {
+    guard let email = textFieldLoginEmail.text,
+        let password = textFieldLoginPassword.text,
+        email.count > 0,
+        password.count > 0 else {return}
+    
+    Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+        if let error = error, user == nil {
+            let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+            
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
     performSegue(withIdentifier: loginToList, sender: nil)
   }
   
