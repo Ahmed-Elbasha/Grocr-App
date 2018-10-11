@@ -42,6 +42,18 @@ class LoginViewController: UIViewController {
     return .lightContent
   }
   
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                self.performSegue(withIdentifier: self.loginToList, sender: nil)
+                self.textFieldLoginEmail.text = nil
+                self.textFieldLoginPassword.text = nil
+            }
+        }
+    }
+    
   // MARK: Actions
   @IBAction func loginDidTouch(_ sender: AnyObject) {
     guard let email = textFieldLoginEmail.text,

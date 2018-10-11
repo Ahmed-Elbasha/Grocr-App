@@ -74,6 +74,11 @@ class GroceryListTableViewController: UITableViewController {
         self.items = newItems
         self.tableView.reloadData()
     }
+    
+    Auth.auth().addStateDidChangeListener { (auth, user) in
+        guard let user = user else {return}
+        self.user = User(authData: user)
+    }
   }
   
   // MARK: UITableView Delegate methods
