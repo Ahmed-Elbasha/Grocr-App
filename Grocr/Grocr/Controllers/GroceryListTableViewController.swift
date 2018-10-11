@@ -34,6 +34,7 @@ class GroceryListTableViewController: UITableViewController {
   // MARK: Constants
   let listToUsers = "ListToUsers"
   let databaseReference = Database.database().reference(withPath: "grocery-items")
+  let usersDatabaseReference = Database.database().reference(withPath: "online")
   
   // MARK: Properties
   var items: [GroceryItem] = []
@@ -78,6 +79,10 @@ class GroceryListTableViewController: UITableViewController {
     Auth.auth().addStateDidChangeListener { (auth, user) in
         guard let user = user else {return}
         self.user = User(authData: user)
+        
+        let currentUserReference = self.usersDatabaseReference.child(self.user.uid)
+        currentUserReference.setValue(self.user.email)
+        currentUserReference.onDisconnectRemoveValue()
     }
   }
   
