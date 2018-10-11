@@ -82,7 +82,17 @@ class GroceryListTableViewController: UITableViewController {
         
         let currentUserReference = self.usersDatabaseReference.child(self.user.uid)
         currentUserReference.setValue(self.user.email)
-        currentUserReference.onDisconnectRemoveValue()
+        if self.user != nil {
+            currentUserReference.onDisconnectRemoveValue()
+        }
+    }
+    
+    usersDatabaseReference.observe(.value) { (snapshot) in
+        if snapshot.exists() {
+            self.userCountBarButtonItem.title = snapshot.childrenCount.description
+        } else {
+            self.userCountBarButtonItem.title = "0"
+        }
     }
   }
   

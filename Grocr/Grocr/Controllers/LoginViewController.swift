@@ -48,8 +48,8 @@ class LoginViewController: UIViewController {
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if user != nil {
                 self.performSegue(withIdentifier: self.loginToList, sender: nil)
-                self.textFieldLoginEmail.text = nil
-                self.textFieldLoginPassword.text = nil
+                //self.textFieldLoginEmail.text = nil
+                //self.textFieldLoginPassword.text = nil
             }
         }
     }
